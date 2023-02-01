@@ -90,10 +90,10 @@ Use the pick up time for your calculations.
 - 2019-01-10
 
 ```
-SELECT DATE(lpep_pickup_datetime), MAX(trip_distance) trip_distance
+SELECT DATE(lpep_pickup_datetime), trip_distance
 FROM green_taxi_trips
-GROUP BY DATE(lpep_pickup_datetime)
-ORDER BY trip_distance DESC;
+ORDER BY trip_distance DESC
+LIMIT 1;
 ```
 > Result: 2019-01-15 (with 117.99 km in trip distance)
 
