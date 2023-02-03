@@ -1,6 +1,6 @@
 from prefect.deployments import Deployment
 from prefect.filesystems import GitHub
-from etl_web_to_gcs_green import etl_parent_flow
+from etl_web_to_gcs import etl_parent_flow
 
 github_storage = GitHub.load("de-zoomcamp")
 
