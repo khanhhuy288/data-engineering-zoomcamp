@@ -21,7 +21,7 @@ def write_bq(df: pd.DataFrame) -> None:
     gcp_credentials_block = GcpCredentials.load("zoom-gcp-credentials")
 
     df.to_gbq(
-        destination_table="nytaxi.yellow_tripdata",
+        destination_table="nytaxi.green_tripdata",
         project_id="cosmic-stacker-376320",
         credentials=gcp_credentials_block.get_credentials_from_service_account(),
         chunksize=500_000,
@@ -40,7 +40,7 @@ def etl_gcs_to_bq(year: int, month: int, color: str) -> None:
 
 @flow()
 def etl_parent_flow_1(months: list[int] = [1, 2],
-                    years: list[int] = [2021],
+                    years: list[int] = [2019, 2020],
                     color: str = "yellow"
 ):
     for year in years:
@@ -49,11 +49,11 @@ def etl_parent_flow_1(months: list[int] = [1, 2],
 
 
 if __name__ == "__main__":
-    color = "yellow"
+    color = "green"
     months = list(range(1, 13))
     year = [2019, 2020]
     etl_parent_flow_1(months, year, color)
-    color = "yellow"
+    color = "green"
     months = list(range(1, 8))
     year = [2021]
     etl_parent_flow_1(months, year, color)

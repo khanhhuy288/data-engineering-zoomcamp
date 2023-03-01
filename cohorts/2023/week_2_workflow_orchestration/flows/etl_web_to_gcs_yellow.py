@@ -7,9 +7,9 @@ from prefect.tasks import task_input_hash
 from prefect_gcp.cloud_storage import GcsBucket
 
 
-# @task(retries=3, cache_key_fn=task_input_hash, cache_expiration=timedelta(days=1))
+@task(retries=3, cache_key_fn=task_input_hash, cache_expiration=timedelta(days=1))
 # This line causes error as it used the local path instead of the path in the Docker container
-@task(retries=3)
+# @task(retries=3)
 def fetch(dataset_url: str) -> pd.DataFrame:
     """Read taxi data from web into pandas DataFrame"""
     df = pd.read_csv(dataset_url)
@@ -58,15 +58,16 @@ def etl_web_to_gcs(year: int, month: int, color: str) -> None:
 
 @flow()
 def etl_parent_flow(months: list[int] = [1, 2],
-                    year: int = 2021,
+                    years: list[int] = [2021],
                     color: str = "yellow"
 ):
-    for month in months:
-        etl_web_to_gcs(year, month, color)
+    for year in years:
+        for month in months:
+            etl_web_to_gcs(year, month, color)
 
 
 if __name__ == "__main__":
     color = "yellow"
-    months = [2, 3]
-    year = 2019
+    months = list(range(1, 8))
+    year = [2021]
     etl_parent_flow(months, year, color)
