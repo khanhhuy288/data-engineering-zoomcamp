@@ -11,7 +11,7 @@ gsutil -m cp -r pq/ gs://dtc_data_lake_de-zoomcamp-nytaxi/pq
 Download the jar for connecting to GCS to any location (e.g. the `lib` folder):
 
 ```bash
-gsutil cp gs://hadoop-lib/gcs/gcs-connector-hadoop3-2.2.5.jar
+gsutil cp gs://hadoop-lib/gcs/gcs-connector-hadoop3-2.2.5.jar gcs-connector-hadoop3-2.2.5.jar 
 ```
 
 See the notebook with configuration in [09_spark_gcs.ipynb](09_spark_gcs.ipynb)
@@ -30,7 +30,7 @@ Creating a stand-alone cluster ([docs](https://spark.apache.org/docs/latest/spar
 Creating a worker:
 
 ```bash
-URL="spark://de-zoomcamp.europe-west1-b.c.de-zoomcamp-nytaxi.internal:7077"
+URL="spark://Huys-MBP.local:7077"
 ./sbin/start-slave.sh ${URL}
 
 # for newer versions of spark use that:
@@ -47,22 +47,22 @@ Edit the script and then run it:
 
 ```bash 
 python 06_spark_sql.py \
-    --input_green=data/pq/green/2020/*/ \
-    --input_yellow=data/pq/yellow/2020/*/ \
-    --output=data/report-2020
+    --input_green='data/pq/green/2020/*/' \
+    --input_yellow='data/pq/yellow/2020/*/' \
+    --output='data/report-2020'
 ```
 
 Use `spark-submit` for running the script on the cluster
 
 ```bash
-URL="spark://de-zoomcamp.europe-west1-b.c.de-zoomcamp-nytaxi.internal:7077"
+URL="spark://Huys-MBP.local:7077"
 
 spark-submit \
     --master="${URL}" \
     06_spark_sql.py \
-        --input_green=data/pq/green/2021/*/ \
-        --input_yellow=data/pq/yellow/2021/*/ \
-        --output=data/report-2021
+        --input_green='data/raw/green/2021/*/' \
+        --input_yellow='data/raw/yellow/2021/*/' \
+        --output='data/report-2021'
 ```
 
 ### Data Proc
